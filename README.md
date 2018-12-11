@@ -6,8 +6,9 @@ This module configures a bucket with:
  
  ## Example Usage:
 ```
-module "s3_logging" {
-  source = "github.com/StratusGrid/terraform-aws-s3-bucket-logging"
+module "s3_bucket_logging" {
+  source  = "StratusGrid/s3-bucket-logging/aws"
+  version = "1.0.0"
   name_prefix = "${var.name_prefix}"
   input_tags = "${local.common_tags}"
 }
