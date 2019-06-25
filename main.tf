@@ -56,6 +56,46 @@ data "aws_iam_policy_document" "bucket_policy" {
   }
 
   statement {
+    actions   = [
+      "s3:GetBucketAcl"
+    ]
+    principals {
+      identifiers = [
+        "config.amazonaws.com"
+      ]
+      type = "Service"
+    }
+    resources = [
+      "${aws_s3_bucket.bucket.arn}"
+    ]
+    sid       = "EnableConfigGetACL"
+  }
+
+  statement {
+    actions   = [
+      "s3:PutObject"
+    ]
+    principals {
+      identifiers = [
+        "config.amazonaws.com"
+      ]
+      type = "Service"
+    }
+    resources = [
+      "${aws_s3_bucket.bucket.arn}/aws-config/*",
+      "${aws_s3_bucket.bucket.arn}/config/*"
+    ]
+    condition {
+      test = "StringEquals"
+      variable = "s3:x-amz-acl"
+      values = [
+        "bucket-owner-full-control"
+      ]
+    }
+    sid       = "EnableConfigLogging"
+  }
+
+  statement {
     actions = [
       "s3:*"
     ]
