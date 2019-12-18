@@ -1,6 +1,6 @@
 resource "aws_s3_bucket" "bucket" {
-  bucket  = "${var.name_prefix}-logging${var.name_suffix}"
-  acl     = "log-delivery-write"
+  bucket = "${var.name_prefix}-logging${var.name_suffix}"
+  acl    = "log-delivery-write"
   lifecycle {
     prevent_destroy = true
   }
@@ -10,29 +10,29 @@ resource "aws_s3_bucket" "bucket" {
     enabled = true
 
     transition {
-      days = "${var.transition_IA}"
+      days          = var.transition_IA
       storage_class = "STANDARD_IA"
     }
 
     transition {
-      days = "${var.transition_glacier}"
+      days          = var.transition_glacier
       storage_class = "GLACIER"
     }
 
     expiration {
-      days = "${var.transition_expiration}"
+      days = var.transition_expiration
     }
   }
-  
+
   server_side_encryption_configuration {
     rule {
       apply_server_side_encryption_by_default {
-        sse_algorithm     = "AES256"
+        sse_algorithm = "AES256"
       }
     }
   }
-  
-  tags = "${var.input_tags}"
+
+  tags = var.input_tags
 }
 
 data "aws_elb_service_account" "elb_account" {}
@@ -40,23 +40,23 @@ data "aws_elb_service_account" "elb_account" {}
 data "aws_iam_policy_document" "bucket_policy" {
 
   statement {
-    actions   = [
+    actions = [
       "s3:PutObject"
     ]
     principals {
       identifiers = [
-        "${data.aws_elb_service_account.elb_account.arn}"
+        data.aws_elb_service_account.elb_account.arn
       ]
       type = "AWS"
     }
     resources = [
       "${aws_s3_bucket.bucket.arn}/elb/*"
     ]
-    sid       = "EnableELBLogging"
+    sid = "EnableELBLogging"
   }
 
   statement {
-    actions   = [
+    actions = [
       "s3:GetBucketAcl"
     ]
     principals {
@@ -66,13 +66,13 @@ data "aws_iam_policy_document" "bucket_policy" {
       type = "Service"
     }
     resources = [
-      "${aws_s3_bucket.bucket.arn}"
+      aws_s3_bucket.bucket.arn
     ]
-    sid       = "EnableConfigGetACL"
+    sid = "EnableConfigGetACL"
   }
 
   statement {
-    actions   = [
+    actions = [
       "s3:PutObject"
     ]
     principals {
@@ -86,13 +86,13 @@ data "aws_iam_policy_document" "bucket_policy" {
       "${aws_s3_bucket.bucket.arn}/config/*"
     ]
     condition {
-      test = "StringEquals"
+      test     = "StringEquals"
       variable = "s3:x-amz-acl"
       values = [
         "bucket-owner-full-control"
       ]
     }
-    sid       = "EnableConfigLogging"
+    sid = "EnableConfigLogging"
   }
 
   statement {
@@ -114,7 +114,7 @@ data "aws_iam_policy_document" "bucket_policy" {
       type = "AWS"
     }
     resources = [
-      "${aws_s3_bucket.bucket.arn}",
+      aws_s3_bucket.bucket.arn,
       "${aws_s3_bucket.bucket.arn}/*"
     ]
     sid = "DenyUnsecuredTransport"
@@ -122,6 +122,6 @@ data "aws_iam_policy_document" "bucket_policy" {
 }
 
 resource "aws_s3_bucket_policy" "bucket_policy_attachment" {
-  bucket = "${aws_s3_bucket.bucket.id}"
-  policy = "${data.aws_iam_policy_document.bucket_policy.json}"
+  bucket = aws_s3_bucket.bucket.id
+  policy = data.aws_iam_policy_document.bucket_policy.json
 }
