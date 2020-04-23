@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "bucket" {
-  bucket = var.name
+  bucket = "${var.name_prefix}-logging${var.name_suffix}"
   acl    = "log-delivery-write"
   lifecycle {
     prevent_destroy = true
