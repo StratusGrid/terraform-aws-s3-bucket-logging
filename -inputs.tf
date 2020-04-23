@@ -1,12 +1,6 @@
-variable "name_prefix" {
-  description = "String to prefix on object names"
+variable "name" {
+  description = "String to use for s3 bucket name"
   type        = string
-}
-
-variable "name_suffix" {
-  description = "String to append to object names. This is optional, so start with dash if using"
-  type        = string
-  default     = ""
 }
 
 variable "input_tags" {
