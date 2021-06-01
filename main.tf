@@ -32,7 +32,7 @@ resource "aws_s3_bucket" "bucket" {
     }
   }
 
-  tags = var.input_tags
+  tags = local.common_tags
 }
 
 data "aws_elb_service_account" "elb_account" {}
