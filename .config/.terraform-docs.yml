@@ -19,6 +19,12 @@ content: |-
   {{ include "examples/simple.tf" }}
   ```
 
+  ### Example - Remote Logging
+
+  ```hcl
+  {{ include "examples/remote-logging.tf" }}
+  ```
+
   ### Example - Regional
 
   ```hcl

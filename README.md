@@ -12,7 +12,7 @@
 ```hcl
 module "s3_bucket_logging" {
   source  = "StratusGrid/s3-bucket-logging/aws"
-  version = "1.2.2"
+  version = "1.2.3"
   name_prefix = "${var.name_prefix}"
   input_tags = local.common_tags
   versioning_enabled = true #Enabled by default
@@ -24,7 +24,7 @@ module "s3_bucket_logging" {
 ```hcl
 module "s3_bucket_logging_us_east_2" {
   source      = "StratusGrid/s3-bucket-logging/aws"
-  version     = "1.2.2"
+  version     = "1.2.3"
   name_prefix = var.name_prefix
   name_suffix = "${local.name_suffix}-us-east-2"
   input_tags  = merge(local.common_tags, {})
@@ -55,9 +55,13 @@ module "s3_bucket_logging_us_east_2" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_enable_centralized_logging"></a> [enable\_centralized\_logging](#input\_enable\_centralized\_logging) | Enable support for centralized logging to a centralized logging account | `bool` | `false` | no |
+| <a name="input_iam_role_s3_replication_arn"></a> [iam\_role\_s3\_replication\_arn](#input\_iam\_role\_s3\_replication\_arn) | IAM Role that enable S3 Role Assumption for Centralized Logging | `string` | `""` | no |
 | <a name="input_input_tags"></a> [input\_tags](#input\_input\_tags) | Map of tags to apply to resources | `map(string)` | `{}` | no |
+| <a name="input_logging_account_id"></a> [logging\_account\_id](#input\_logging\_account\_id) | Logging Account Number | `string` | `""` | no |
 | <a name="input_name_prefix"></a> [name\_prefix](#input\_name\_prefix) | String to prefix on object names | `string` | n/a | yes |
 | <a name="input_name_suffix"></a> [name\_suffix](#input\_name\_suffix) | String to append to object names. This is optional, so start with dash if using | `string` | `""` | no |
+| <a name="input_s3_destination_bucket_name"></a> [s3\_destination\_bucket\_name](#input\_s3\_destination\_bucket\_name) | Centralized Logging Bucket Name | `string` | `""` | no |
 | <a name="input_transition_IA"></a> [transition\_IA](#input\_transition\_IA) | Number of days before transitioning data to S3 Infrequently Accessed | `string` | `"180"` | no |
 | <a name="input_transition_expiration"></a> [transition\_expiration](#input\_transition\_expiration) | Number of days before expiring data completely | `string` | `"2557"` | no |
 | <a name="input_transition_glacier"></a> [transition\_glacier](#input\_transition\_glacier) | Number of days before transitioning data to Glacier | `string` | `"366"` | no |

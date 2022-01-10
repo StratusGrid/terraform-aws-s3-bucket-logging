@@ -18,6 +18,10 @@ resource "aws_s3_bucket" "bucket" {
         destination {
           bucket        = "arn:aws:s3:::${var.s3_destination_bucket_name}"
           storage_class = "STANDARD_IA"
+          account_id    = var.logging_account_id
+          access_control_translation {
+            owner = "Destination"
+          }
         }
       }
     }

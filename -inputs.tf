@@ -56,3 +56,9 @@ variable "iam_role_s3_replication_arn" {
   type        = string
   default     = ""
 }
+
+variable "logging_account_id" {
+  description = "Logging Account Number"
+  type        = string
+  default     = ""
+}
