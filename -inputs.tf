@@ -32,3 +32,9 @@ variable "transition_expiration" {
   type        = string
   default     = "2557"
 }
+
+variable "versioning_enabled" {
+  description = "Enable versioning on the S3 bucket, this is mainly for S3 logging replication"
+  type        = bool
+  default     = true #There are zero pricing implications assuming this module is used as it should be
+}

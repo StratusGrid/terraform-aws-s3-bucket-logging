@@ -22,6 +22,10 @@ resource "aws_s3_bucket" "bucket" {
     expiration {
       days = var.transition_expiration
     }
+
+    versioning {
+      enabled = var.versioning_enabled
+    }
   }
 
   server_side_encryption_configuration {
