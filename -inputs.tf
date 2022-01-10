@@ -38,3 +38,15 @@ variable "versioning_enabled" {
   type        = bool
   default     = true #There are zero pricing implications assuming this module is used as it should be
 }
+
+variable "enable_centralized_logging" {
+  description = "Enable support for centralized logging to a centralized logging account"
+  type        = bool
+  default     = false
+}
+
+variable "s3_destination_bucket_name" {
+  description = "Centralized Logging Bucket Name"
+  type        = string
+  default     = ""
+}
