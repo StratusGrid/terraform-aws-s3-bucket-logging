@@ -1,6 +1,7 @@
 resource "aws_s3_bucket" "bucket" {
   bucket = "${var.name_prefix}-logging${var.name_suffix}"
   acl    = "log-delivery-write"
+  
   versioning {
     enabled = var.versioning_enabled
   }
