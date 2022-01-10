@@ -1,0 +1,52 @@
+version: ""
+
+formatter: markdown table
+
+name: terraform-aws-s3-bucket-logging
+
+content: |-
+  # Terraform S3 bucket for centralized account logging
+
+  ## Terraform module to create a centralized s3 bucket for logging in the account that can later be configured for centralized logging
+  
+  ### Example - Simple
+
+  ```hcl
+  {{ include "examples/simple.tf" }}
+  ```
+
+  ### Example - Regional
+
+  ```hcl
+  {{ include "examples/regional.tf" }}
+  ```
+  
+   ---
+
+  {{ .Requirements }}
+
+  {{ .Resources }}
+
+  {{ .Inputs }}
+
+  {{ .Outputs }}
+
+  ---
+
+  ## Notes
+  Note, manual changes to the README will be overwritten when the documentation is updated. To update the documentation, run `terraform-docs -c .config/.terraform-docs.yml .`
+
+sections:
+  show:
+    - requirements
+    - resources
+    - inputs
+    - outputs
+
+sort:
+  enabled: true
+  by: name
+
+output:
+  file: README.md
+  mode: replace
