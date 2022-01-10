@@ -3,6 +3,10 @@
 
 ## Terraform module to create a centralized s3 bucket for logging in the account that can later be configured for centralized logging
 
+### This module configures a bucket with:
+- Server Side Encryption (Not KMS)
+- Requires encrypted transit
+
 ### Example - Simple
 
 ```hcl
