@@ -10,7 +10,7 @@ resource "aws_s3_bucket" "bucket" {
     #If conditions are true enable versioning, if they're false do nothing
     for_each = var.versioning_enabled == true && var.enable_centralized_logging == true ? [true] : []
     content {
-      role = aws_iam_role.replication.arn
+      role = var.iam_role_s3_replication_arn
 
       rules {
         id     = "${var.name_prefix}-replcation${var.name_suffix}"

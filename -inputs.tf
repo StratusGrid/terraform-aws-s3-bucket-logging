@@ -50,3 +50,9 @@ variable "s3_destination_bucket_name" {
   type        = string
   default     = ""
 }
+
+variable "iam_role_s3_replication_arn" {
+  description = "IAM Role that enable S3 Role Assumption for Centralized Logging"
+  type        = string
+  default     = ""
+}
