@@ -13,15 +13,12 @@ resource "aws_s3_bucket" "bucket" {
       role = var.iam_role_s3_replication_arn
 
       rules {
-        id     = "${var.name_prefix}-replcation${var.name_suffix}"
+        id     = "${var.name_prefix}-replication${var.name_suffix}"
         status = "Enabled"
         destination {
           bucket        = "arn:aws:s3:::${var.s3_destination_bucket_name}"
-          storage_class = "STANDARD_IA"
+          storage_class = var.replication_dest_storage_class
           account_id    = var.logging_account_id
-          access_control_translation {
-            owner = "Destination"
-          }
         }
       }
     }

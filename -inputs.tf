@@ -62,3 +62,9 @@ variable "logging_account_id" {
   type        = string
   default     = ""
 }
+
+variable "replication_dest_storage_class" {
+  description = "The storage class to send replicated objects (https://docs.aws.amazon.com/AmazonS3/latest/API/API_Transition.html#AmazonS3-Type-Transition-StorageClass)"
+  type        = string
+  default     = "STANDARD_IA"
+}
