@@ -30,6 +30,13 @@ content: |-
   ```hcl
   {{ include "examples/regional.tf" }}
   ```
+
+  ### Example - Regional
+  Below is an example of the required source IAM policy to coordinate making this work
+
+  ```hcl
+  {{ include "examples/iam-example.tf" }}
+  ```
   
    ---
 

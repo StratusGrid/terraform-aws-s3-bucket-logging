@@ -47,6 +47,13 @@ module "s3_bucket_logging_us_east_2" {
 }
 ```
 
+### Example - Regional
+Below is an example of the required source IAM policy to coordinate making this work
+
+```hcl
+
+```
+
 ---
 
 ## Requirements
