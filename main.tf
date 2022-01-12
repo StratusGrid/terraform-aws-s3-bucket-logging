@@ -6,6 +6,27 @@ resource "aws_s3_bucket" "bucket" {
     enabled = var.versioning_enabled
   }
   
+  dynamic "replication_configuration" {
+    #If conditions are true enable versioning, if they're false do nothing
+    for_each = var.versioning_enabled == true && var.enable_centralized_logging == true ? [true] : []
+    content {
+      role = var.iam_role_s3_replication_arn
+
+      rules {
+        id     = "${var.name_prefix}-replication${var.name_suffix}"
+        status = "Enabled"
+        destination {
+          bucket        = "arn:aws:s3:::${var.s3_destination_bucket_name}"
+          storage_class = var.replication_dest_storage_class
+          account_id    = var.logging_account_id
+          access_control_translation {
+            owner = "Destination"
+          }
+        }
+      }
+    }
+  }
+
   lifecycle {
     prevent_destroy = true
   }

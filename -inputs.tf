@@ -38,3 +38,33 @@ variable "versioning_enabled" {
   type        = bool
   default     = true #There are zero pricing implications assuming this module is used as it should be
 }
+
+variable "enable_centralized_logging" {
+  description = "Enable support for centralized logging to a centralized logging account"
+  type        = bool
+  default     = false
+}
+
+variable "s3_destination_bucket_name" {
+  description = "Centralized Logging Bucket Name"
+  type        = string
+  default     = ""
+}
+
+variable "iam_role_s3_replication_arn" {
+  description = "IAM Role that enable S3 Role Assumption for Centralized Logging"
+  type        = string
+  default     = ""
+}
+
+variable "logging_account_id" {
+  description = "Logging Account Number"
+  type        = string
+  default     = ""
+}
+
+variable "replication_dest_storage_class" {
+  description = "The storage class to send replicated objects (https://docs.aws.amazon.com/AmazonS3/latest/API/API_Transition.html#AmazonS3-Type-Transition-StorageClass)"
+  type        = string
+  default     = "STANDARD_IA"
+}
