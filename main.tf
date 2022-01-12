@@ -19,6 +19,9 @@ resource "aws_s3_bucket" "bucket" {
           bucket        = "arn:aws:s3:::${var.s3_destination_bucket_name}"
           storage_class = var.replication_dest_storage_class
           account_id    = var.logging_account_id
+          access_control_translation {
+            owner = "Destination"
+          }
         }
       }
     }
