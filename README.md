@@ -12,7 +12,7 @@
 ```hcl
 module "s3_bucket_logging" {
   source  = "StratusGrid/s3-bucket-logging/aws"
-  version = "1.3.0"
+  version = "1.4.0"
   name_prefix = "${var.name_prefix}"
   input_tags = local.common_tags
   versioning_enabled = true #Enabled by default
@@ -24,7 +24,7 @@ module "s3_bucket_logging" {
 ```hcl
 module "s3_bucket_logging" {
   source  = "StratusGrid/s3-bucket-logging/aws"
-  version = "1.3.0"
+  version = "1.4.0"
   name_prefix = "${var.name_prefix}"
   input_tags = local.common_tags
   versioning_enabled = true #Enabled by default
@@ -36,7 +36,7 @@ module "s3_bucket_logging" {
 ```hcl
 module "s3_bucket_logging_us_east_2" {
   source      = "StratusGrid/s3-bucket-logging/aws"
-  version     = "1.3.0"
+  version     = "1.4.0"
   name_prefix = var.name_prefix
   name_suffix = "${local.name_suffix}-us-east-2"
   input_tags  = merge(local.common_tags, {})
