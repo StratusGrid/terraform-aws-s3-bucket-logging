@@ -110,8 +110,11 @@ resource "aws_s3_bucket_lifecycle_configuration" "bucket" {
 
   rule {
     id     = "Logs"
-    prefix = "/"
     status = "Enabled"
+
+    filter {
+      prefix = "/"
+    }
 
     transition {
       days          = var.transition_IA
