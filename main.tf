@@ -89,7 +89,7 @@ resource "aws_s3_bucket" "bucket" {
     prevent_destroy = true
   }
 
-  tags = var.input_tags
+  tags = local.common_tags
 }
 
 resource "aws_s3_bucket_versioning" "resource" {
@@ -110,8 +110,11 @@ resource "aws_s3_bucket_lifecycle_configuration" "bucket" {
 
   rule {
     id     = "Logs"
-    prefix = "/"
     status = "Enabled"
+
+    filter {
+      prefix = "/"
+    }
 
     transition {
       days          = var.transition_IA
