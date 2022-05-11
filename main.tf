@@ -89,7 +89,7 @@ resource "aws_s3_bucket" "bucket" {
     prevent_destroy = true
   }
 
-  tags = var.input_tags
+  tags = local.common_tags
 }
 
 resource "aws_s3_bucket_versioning" "resource" {
