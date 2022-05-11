@@ -1,68 +1,3 @@
-resource "aws_s3_bucket" "bucket" {
-  bucket = "${var.name_prefix}-logging${var.name_suffix}"
-  acl    = "log-delivery-write"
-  
-  versioning {
-    enabled = var.versioning_enabled
-  }
-  
-  dynamic "replication_configuration" {
-    #If conditions are true enable versioning, if they're false do nothing
-    for_each = var.versioning_enabled == true && var.enable_centralized_logging == true ? [true] : []
-    content {
-      role = var.iam_role_s3_replication_arn
-
-      rules {
-        id     = "${var.name_prefix}-replication${var.name_suffix}"
-        status = "Enabled"
-        destination {
-          bucket        = "arn:aws:s3:::${var.s3_destination_bucket_name}"
-          storage_class = var.replication_dest_storage_class
-          account_id    = var.logging_account_id
-          access_control_translation {
-            owner = "Destination"
-          }
-        }
-      }
-    }
-  }
-
-  lifecycle {
-    prevent_destroy = true
-  }
-  lifecycle_rule {
-    id      = "Logs"
-    prefix  = "/"
-    enabled = true
-
-    transition {
-      days          = var.transition_IA
-      storage_class = "STANDARD_IA"
-    }
-
-    transition {
-      days          = var.transition_glacier
-      storage_class = "GLACIER"
-    }
-
-    expiration {
-      days = var.transition_expiration
-    }
-  }
-
-  server_side_encryption_configuration {
-    rule {
-      apply_server_side_encryption_by_default {
-        sse_algorithm = "AES256"
-      }
-    }
-  }
-
-  tags = var.input_tags
-}
-
-data "aws_elb_service_account" "elb_account" {}
-
 data "aws_iam_policy_document" "bucket_policy" {
 
   statement {
@@ -144,6 +79,83 @@ data "aws_iam_policy_document" "bucket_policy" {
       "${aws_s3_bucket.bucket.arn}/*"
     ]
     sid = "DenyUnsecuredTransport"
+  }
+}
+
+resource "aws_s3_bucket" "bucket" {
+  bucket = "${var.name_prefix}-logging${var.name_suffix}"
+
+  lifecycle {
+    prevent_destroy = true
+  }
+
+  tags = var.input_tags
+}
+
+resource "aws_s3_bucket_versioning" "resource" {
+  bucket = aws_s3_bucket.bucket.id
+
+  versioning_configuration {
+    status = var.versioning_enabled == true ? "Enabled" : "Disabled"
+  }
+}
+
+resource "aws_s3_bucket_acl" "bucket" {
+  bucket = aws_s3_bucket.bucket.id
+  acl    = "log-delivery-write"
+}
+
+resource "aws_s3_bucket_lifecycle_configuration" "bucket" {
+  bucket = aws_s3_bucket.bucket.id
+
+  rule {
+    id     = "Logs"
+    prefix = "/"
+    status = "Enabled"
+
+    transition {
+      days          = var.transition_IA
+      storage_class = "STANDARD_IA"
+    }
+
+    transition {
+      days          = var.transition_glacier
+      storage_class = "GLACIER"
+    }
+
+    expiration {
+      days = var.transition_expiration
+    }
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "bucket" {
+  bucket = aws_s3_bucket.bucket.bucket
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
+  }
+}
+
+resource "aws_s3_bucket_replication_configuration" "replication" {
+  count = var.versioning_enabled == true && var.enable_centralized_logging == true ? 1 : 0 # If statement if to enable replication
+
+  role   = var.iam_role_s3_replication_arn
+  bucket = aws_s3_bucket.bucket.id
+
+  rule {
+    id     = "${var.name_prefix}-replication${var.name_suffix}"
+    status = "Enabled"
+    destination {
+      bucket        = "arn:aws:s3:::${var.s3_destination_bucket_name}"
+      storage_class = var.replication_dest_storage_class
+      account       = var.logging_account_id
+      access_control_translation {
+        owner = "Destination"
+      }
+    }
   }
 }
 
