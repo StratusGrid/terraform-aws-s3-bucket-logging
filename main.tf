@@ -17,6 +17,45 @@ data "aws_iam_policy_document" "bucket_policy" {
   }
 
   statement {
+    sid = "AWSLogDeliveryWrite"
+    actions = [
+      "s3:PutObject"
+    ]
+    principals {
+      identifiers = [
+        "delivery.logs.amazonaws.com"
+      ]
+      type = "Service"
+    }
+    resources = [
+      "${aws_s3_bucket.bucket.arn}/elb/*"
+    ]
+    condition {
+      test     = "StringEquals"
+      variable = "s3:x-amz-acl"
+      values = [
+        "bucket-owner-full-control"
+      ]
+    }
+  }
+
+  statement {
+    actions = [
+      "s3:GetBucketAcl"
+    ]
+    principals {
+      identifiers = [
+        "delivery.logs.amazonaws.com"
+      ]
+      type = "Service"
+    }
+    resources = [
+      aws_s3_bucket.bucket.arn
+    ]
+    sid = "AWSLogDeliveryAclCheck"
+  }
+
+  statement {
     actions = [
       "s3:GetBucketAcl"
     ]
