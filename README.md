@@ -1,7 +1,9 @@
 <!-- BEGIN_TF_DOCS -->
-# Terraform S3 bucket for centralized account logging
+# terraform-aws-s3-bucket-logging
 
-## Terraform module to create a centralized s3 bucket for logging in the account that can later be configured for centralized logging
+GitHub: [StratusGrid/terraform-aws-s3-bucket-logging](https://github.com/StratusGrid/terraform-aws-s3-bucket-logging)
+
+This Terraform module creates a centralized s3 bucket for logging in the account that can later be configured for centralized logging.
 
 ### This module configures a bucket with:
 - Server Side Encryption (Not KMS)
@@ -11,10 +13,10 @@
 
 ```hcl
 module "s3_bucket_logging" {
-  source  = "StratusGrid/s3-bucket-logging/aws"
-  version = "2.0.1"
-  name_prefix = "${var.name_prefix}"
-  input_tags = local.common_tags
+  source             = "StratusGrid/s3-bucket-logging/aws"
+  version            = "2.0.1"
+  name_prefix        = var.name_prefix
+  input_tags         = local.common_tags
   versioning_enabled = true #Enabled by default
 }
 ```
@@ -23,10 +25,10 @@ module "s3_bucket_logging" {
 
 ```hcl
 module "s3_bucket_logging" {
-  source  = "StratusGrid/s3-bucket-logging/aws"
-  version = "2.0.1"
-  name_prefix = "${var.name_prefix}"
-  input_tags = local.common_tags
+  source             = "StratusGrid/s3-bucket-logging/aws"
+  version            = "2.0.1"
+  name_prefix        = var.name_prefix
+  input_tags         = local.common_tags
   versioning_enabled = true #Enabled by default
 }
 ```
@@ -97,15 +99,15 @@ resource "aws_iam_policy" "s3_role_assumption" {
 
 
 module "iam_role_s3" {
-  source = "terraform-aws-modules/iam/aws//modules/iam-assumable-role"
+  source  = "terraform-aws-modules/iam/aws//modules/iam-assumable-role"
   version = "~> 4"
 
   trusted_role_services = ["s3.amazonaws.com"]
 
-  create_role = true
+  create_role       = true
   role_requires_mfa = false #No MFA since it's a service
 
-  role_name         = "${var.name_prefix}-s3-central-replication${local.name_suffix}" #The assuming account matches it based upon name
+  role_name = "${var.name_prefix}-s3-central-replication${local.name_suffix}" #The assuming account matches it based upon name
 
   custom_role_policy_arns = [
     aws_iam_policy.s3_role_assumption.arn
@@ -150,17 +152,17 @@ module "iam_role_s3" {
 | <a name="input_name_suffix"></a> [name\_suffix](#input\_name\_suffix) | String to append to object names. This is optional, so start with dash if using | `string` | `""` | no |
 | <a name="input_replication_dest_storage_class"></a> [replication\_dest\_storage\_class](#input\_replication\_dest\_storage\_class) | The storage class to send replicated objects (https://docs.aws.amazon.com/AmazonS3/latest/API/API_Transition.html#AmazonS3-Type-Transition-StorageClass) | `string` | `"STANDARD_IA"` | no |
 | <a name="input_s3_destination_bucket_name"></a> [s3\_destination\_bucket\_name](#input\_s3\_destination\_bucket\_name) | Centralized Logging Bucket Name | `string` | `""` | no |
-| <a name="input_transition_IA"></a> [transition\_IA](#input\_transition\_IA) | Number of days before transitioning data to S3 Infrequently Accessed | `string` | `"180"` | no |
 | <a name="input_transition_expiration"></a> [transition\_expiration](#input\_transition\_expiration) | Number of days before expiring data completely | `string` | `"2557"` | no |
 | <a name="input_transition_glacier"></a> [transition\_glacier](#input\_transition\_glacier) | Number of days before transitioning data to Glacier | `string` | `"366"` | no |
+| <a name="input_transition_ia"></a> [transition\_ia](#input\_transition\_ia) | Number of days before transitioning data to S3 Infrequently Accessed | `string` | `"180"` | no |
 | <a name="input_versioning_enabled"></a> [versioning\_enabled](#input\_versioning\_enabled) | Enable versioning on the S3 bucket, this is mainly for S3 logging replication | `bool` | `true` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| <a name="output_bucket_arn"></a> [bucket\_arn](#output\_bucket\_arn) | n/a |
-| <a name="output_bucket_id"></a> [bucket\_id](#output\_bucket\_id) | n/a |
+| <a name="output_bucket_arn"></a> [bucket\_arn](#output\_bucket\_arn) | outputs the full arn of the bucket created |
+| <a name="output_bucket_id"></a> [bucket\_id](#output\_bucket\_id) | outputs the id of the bucket created |
 
 ---
 
