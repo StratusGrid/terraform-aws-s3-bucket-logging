@@ -15,7 +15,7 @@ variable "input_tags" {
   default     = {}
 }
 
-variable "transition_IA" {
+variable "transition_ia" {
   description = "Number of days before transitioning data to S3 Infrequently Accessed"
   type        = string
   default     = "180"

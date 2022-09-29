@@ -5,39 +5,41 @@ formatter: markdown table
 name: terraform-aws-s3-bucket-logging
 
 content: |-
-  # Terraform S3 bucket for centralized account logging
+  # terraform-aws-s3-bucket-logging
 
-  ## Terraform module to create a centralized s3 bucket for logging in the account that can later be configured for centralized logging
+  GitHub: [StratusGrid/terraform-aws-s3-bucket-logging](https://github.com/StratusGrid/terraform-aws-s3-bucket-logging)
+
+  This Terraform module creates a centralized s3 bucket for logging in the account that can later be configured for centralized logging.
 
   ### This module configures a bucket with:
   - Server Side Encryption (Not KMS)
   - Requires encrypted transit
-  
+
   ### Example - Simple
 
   ```hcl
-  {{ include "examples/simple.tf" }}
+  {{ include "examples/simple-deployment/example1.tfnot" }}
   ```
 
   ### Example - Remote Logging
 
   ```hcl
-  {{ include "examples/remote-logging.tf" }}
+  {{ include "examples/remote-logging-deployment/example1.tfnot" }}
   ```
 
   ### Example - Regional
 
   ```hcl
-  {{ include "examples/regional.tf" }}
+  {{ include "examples/regional-deployment/example1.tfnot" }}
   ```
 
   ### Example - Regional
   Below is an example of the required source IAM policy to coordinate making this work
 
   ```hcl
-  {{ include "examples/iam-example.tf" }}
+  {{ include "examples/regional-deployment/example2.tfnot" }}
   ```
-  
+
    ---
 
   {{ .Requirements }}
