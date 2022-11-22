@@ -169,6 +169,21 @@ resource "aws_s3_bucket_lifecycle_configuration" "bucket" {
       days = var.transition_expiration
     }
   }
+  dynamic "rule" {
+    for_each = var.enable_delete_all_objects == true ? [1] : []
+    content {
+      id     = "Delete-objects"
+      status = "Enabled"
+
+      filter {
+        prefix = "/"
+      }
+
+      expiration {
+        days = var.days_to_delete_all_objects
+      }
+    }
+  }
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "bucket" {

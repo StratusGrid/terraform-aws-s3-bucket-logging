@@ -144,7 +144,9 @@ module "iam_role_s3" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_days_to_delete_all_objects"></a> [days\_to\_delete\_all\_objects](#input\_days\_to\_delete\_all\_objects) | Number of days before expiring data completely | `string` | `"2557"` | no |
 | <a name="input_enable_centralized_logging"></a> [enable\_centralized\_logging](#input\_enable\_centralized\_logging) | Enable support for centralized logging to a centralized logging account | `bool` | `false` | no |
+| <a name="input_enable_delete_all_objects"></a> [enable\_delete\_all\_objects](#input\_enable\_delete\_all\_objects) | Number of days before expiring data completely | `bool` | `false` | no |
 | <a name="input_iam_role_s3_replication_arn"></a> [iam\_role\_s3\_replication\_arn](#input\_iam\_role\_s3\_replication\_arn) | IAM Role that enable S3 Role Assumption for Centralized Logging | `string` | `""` | no |
 | <a name="input_input_tags"></a> [input\_tags](#input\_input\_tags) | Map of tags to apply to resources | `map(string)` | `{}` | no |
 | <a name="input_logging_account_id"></a> [logging\_account\_id](#input\_logging\_account\_id) | Logging Account Number | `string` | `""` | no |
