@@ -170,7 +170,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "bucket" {
     }
   }
   dynamic "rule" {
-    for_each = var.enable_delete_all_objects == true ? [1] : []
+    for_each = var.enable_object_expiration == true ? [1] : []
     content {
       id     = "Delete-objects"
       status = "Enabled"
@@ -180,7 +180,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "bucket" {
       }
 
       expiration {
-        days = var.days_to_delete_all_objects
+        days = var.days_to_object_expiration
       }
     }
   }

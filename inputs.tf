@@ -33,13 +33,13 @@ variable "transition_expiration" {
   default     = "2557"
 }
 
-variable "days_to_delete_all_objects" {
+variable "days_to_object_expiration" {
   description = "Number of days before expiring data completely"
   type        = string
   default     = "2557"
 }
 
-variable "enable_delete_all_objects" {
+variable "enable_object_expiration" {
   description = "Number of days before expiring data completely"
   type        = bool
   default     = false
