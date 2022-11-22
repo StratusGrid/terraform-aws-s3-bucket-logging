@@ -125,6 +125,7 @@ module "iam_role_s3" {
 
 | Name | Version |
 |------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.1 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 4.0 |
 
 ## Resources
@@ -144,7 +145,9 @@ module "iam_role_s3" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_days_to_object_expiration"></a> [days\_to\_object\_expiration](#input\_days\_to\_object\_expiration) | Number of days before expiring data completely | `string` | `"2557"` | no |
 | <a name="input_enable_centralized_logging"></a> [enable\_centralized\_logging](#input\_enable\_centralized\_logging) | Enable support for centralized logging to a centralized logging account | `bool` | `false` | no |
+| <a name="input_enable_object_expiration"></a> [enable\_object\_expiration](#input\_enable\_object\_expiration) | Number of days before expiring data completely | `bool` | `false` | no |
 | <a name="input_iam_role_s3_replication_arn"></a> [iam\_role\_s3\_replication\_arn](#input\_iam\_role\_s3\_replication\_arn) | IAM Role that enable S3 Role Assumption for Centralized Logging | `string` | `""` | no |
 | <a name="input_input_tags"></a> [input\_tags](#input\_input\_tags) | Map of tags to apply to resources | `map(string)` | `{}` | no |
 | <a name="input_logging_account_id"></a> [logging\_account\_id](#input\_logging\_account\_id) | Logging Account Number | `string` | `""` | no |

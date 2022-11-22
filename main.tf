@@ -169,6 +169,21 @@ resource "aws_s3_bucket_lifecycle_configuration" "bucket" {
       days = var.transition_expiration
     }
   }
+  dynamic "rule" {
+    for_each = var.enable_object_expiration == true ? [1] : []
+    content {
+      id     = "Expire-objects"
+      status = "Enabled"
+
+      filter {
+        prefix = "/"
+      }
+
+      expiration {
+        days = var.days_to_object_expiration
+      }
+    }
+  }
 }
 
 resource "aws_s3_bucket_server_side_encryption_configuration" "bucket" {
