@@ -172,7 +172,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "bucket" {
   dynamic "rule" {
     for_each = var.enable_object_expiration == true ? [1] : []
     content {
-      id     = "Delete-objects"
+      id     = "Expire-objects"
       status = "Enabled"
 
       filter {
