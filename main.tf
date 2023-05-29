@@ -139,11 +139,6 @@ resource "aws_s3_bucket_versioning" "resource" {
   }
 }
 
-resource "aws_s3_bucket_acl" "bucket" {
-  bucket = aws_s3_bucket.bucket.id
-  acl    = "log-delivery-write"
-}
-
 resource "aws_s3_bucket_lifecycle_configuration" "bucket" {
   bucket = aws_s3_bucket.bucket.id
 
