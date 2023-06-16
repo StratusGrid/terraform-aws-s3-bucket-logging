@@ -28,7 +28,7 @@ data "aws_iam_policy_document" "bucket_policy" {
       type = "Service"
     }
     resources = [
-      "${aws_s3_bucket.bucket.arn}/elb/*"
+      "${aws_s3_bucket.bucket.arn}/*"
     ]
     condition {
       test     = "StringEquals"
@@ -137,11 +137,6 @@ resource "aws_s3_bucket_versioning" "resource" {
   versioning_configuration {
     status = var.versioning_enabled == true ? "Enabled" : "Suspended"
   }
-}
-
-resource "aws_s3_bucket_acl" "bucket" {
-  bucket = aws_s3_bucket.bucket.id
-  acl    = "log-delivery-write"
 }
 
 resource "aws_s3_bucket_lifecycle_configuration" "bucket" {
