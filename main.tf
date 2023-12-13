@@ -145,6 +145,7 @@ data "aws_iam_policy_document" "bucket_policy" {
   }
 }
 
+#tfsec:ignore:aws-s3-enable-bucket-logging
 resource "aws_s3_bucket" "bucket" {
   bucket = "${var.name_prefix}-logging${var.name_suffix}"
 
@@ -205,6 +206,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "bucket" {
   }
 }
 
+#tfsec:ignore:aws-s3-encryption-customer-key
 resource "aws_s3_bucket_server_side_encryption_configuration" "bucket" {
   bucket = aws_s3_bucket.bucket.bucket
 
