@@ -119,8 +119,33 @@ data "aws_iam_policy_document" "bucket_policy" {
     ]
     sid = "DenyUnsecuredTransport"
   }
+
+  statement {
+    actions = [
+      "s3:PutObject"
+    ]
+    condition {
+      test = "StringEquals"
+      values = [
+        data.aws_caller_identity.current.account_id
+      ]
+      variable = "aws:SourceAccount"
+    }
+    effect = "Allow"
+    principals {
+      identifiers = [
+        "logging.s3.amazonaws.com"
+      ]
+      type = "Service"
+    }
+    resources = [
+      "${aws_s3_bucket.bucket.arn}/*"
+    ]
+    sid = "S3ServerAccessLogsPolicy"
+  }
 }
 
+#tfsec:ignore:aws-s3-enable-bucket-logging
 resource "aws_s3_bucket" "bucket" {
   bucket = "${var.name_prefix}-logging${var.name_suffix}"
 
@@ -181,6 +206,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "bucket" {
   }
 }
 
+#tfsec:ignore:aws-s3-encryption-customer-key
 resource "aws_s3_bucket_server_side_encryption_configuration" "bucket" {
   bucket = aws_s3_bucket.bucket.bucket
 
