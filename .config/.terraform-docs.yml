@@ -47,7 +47,7 @@ content: |-
   required in order to update or delete this module's resources or if certain
   optional inputs are also defined.
 
-  ```hcl
+  ```json
   {{ include "examples/minimum-permissions/iam-policy.json" }}
   ```
 

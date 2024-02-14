@@ -126,7 +126,7 @@ one containing the minimum required actions. Additional actions may be
 required in order to update or delete this module's resources or if certain
 optional inputs are also defined.
 
-```hcl
+```json
 {
   "Version": "2012-10-17",
   "Statement": [
