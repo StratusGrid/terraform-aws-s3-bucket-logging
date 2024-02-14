@@ -40,7 +40,18 @@ content: |-
   {{ include "examples/regional-deployment/example2.tfnot" }}
   ```
 
-   ---
+  ### Example - Minimum IAM Policy
+  To apply this module with only the required inputs defined, certain bucket
+  resource type IAM actions must be allowed. The following policy represents
+  one containing the minimum required actions. Additional actions may be
+  required in order to update or delete this module's resources or if certain
+  optional inputs are also defined.
+
+  ```json
+  {{ include "examples/minimum-permissions/iam-policy.json" }}
+  ```
+
+  ---
 
   {{ .Requirements }}
 
