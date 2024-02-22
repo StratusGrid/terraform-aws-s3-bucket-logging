@@ -207,12 +207,18 @@ resource "aws_s3_bucket_lifecycle_configuration" "bucket" {
 }
 
 #tfsec:ignore:aws-s3-encryption-customer-key
+#trivy:ignore:AVD-AWS-0089
+#trivy:ignore:AVD-AWS-0132
 resource "aws_s3_bucket_server_side_encryption_configuration" "bucket" {
-  bucket = aws_s3_bucket.bucket.bucket
+  count = var.aws_s3_bucket_server_side_encryption_type != "AWS_DEFAULT" ? 1 : 0
 
-  rule {
-    apply_server_side_encryption_by_default {
-      sse_algorithm = "AES256"
+  bucket = aws_s3_bucket.bucket.bucket
+  dynamic "rule" {
+    for_each = var.aws_s3_bucket_server_side_encryption_type == "SSE_S3" ? [1] : []
+    content {
+      apply_server_side_encryption_by_default {
+        sse_algorithm = "AES256"
+      }
     }
   }
 }
