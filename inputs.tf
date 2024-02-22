@@ -80,3 +80,9 @@ variable "replication_dest_storage_class" {
   type        = string
   default     = "STANDARD_IA"
 }
+
+variable "enable_encryption" {
+  description = "Allows disable the the bucket encryption configuration"
+  type        = bool
+  default     = true
+}
