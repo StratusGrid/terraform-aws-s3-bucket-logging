@@ -80,3 +80,20 @@ variable "replication_dest_storage_class" {
   type        = string
   default     = "STANDARD_IA"
 }
+
+variable "aws_s3_bucket_server_side_encryption_type" {
+  description = "Selection of the bucket encryption type"
+  type        = string
+  default     = "SSE_S3"
+
+  validation {
+    condition = contains([
+      "AWS_DEFAULT",
+      "SSE_S3"
+      ],
+      var.aws_s3_bucket_server_side_encryption_type
+    )
+
+    error_message = "The valid values are AWS_DEFAULT, SSE_S3"
+  }
+}

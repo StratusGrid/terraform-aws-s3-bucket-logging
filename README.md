@@ -144,6 +144,7 @@ module "iam_role_s3" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_aws_s3_bucket_server_side_encryption_type"></a> [aws\_s3\_bucket\_server\_side\_encryption\_type](#input\_aws\_s3\_bucket\_server\_side\_encryption\_type) | Selection of the bucket encryption type | `string` | `"SSE_S3"` | no |
 | <a name="input_days_to_object_expiration"></a> [days\_to\_object\_expiration](#input\_days\_to\_object\_expiration) | Number of days before expiring data completely | `string` | `"2557"` | no |
 | <a name="input_enable_centralized_logging"></a> [enable\_centralized\_logging](#input\_enable\_centralized\_logging) | Enable support for centralized logging to a centralized logging account | `bool` | `false` | no |
 | <a name="input_enable_object_expiration"></a> [enable\_object\_expiration](#input\_enable\_object\_expiration) | Number of days before expiring data completely | `bool` | `false` | no |
