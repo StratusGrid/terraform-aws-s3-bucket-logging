@@ -209,6 +209,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "bucket" {
 #tfsec:ignore:aws-s3-encryption-customer-key
 #trivy:ignore:AVD-AWS-0089
 #trivy:ignore:AVD-AWS-0132
+#trivy:ignore:AVD-AWS-0088 - ignored because the bucket already allows for encryption with a count var
 resource "aws_s3_bucket_server_side_encryption_configuration" "bucket" {
   count = var.aws_s3_bucket_server_side_encryption_type != "AWS_DEFAULT" ? 1 : 0
 
